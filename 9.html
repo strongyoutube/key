@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Revive | Strong Key Edition — Твой интернет без границ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;800&family=Montserrat:wght@900&display=swap');
+
+        :root {
+            --primary: #3498db;
+            --secondary: #f39c12;
+            --light-bg: #f8fafc;
+            --card-light: #ffffff;
+        }
+
+        body {
+            background-color: var(--light-bg);
+            color: #1e293b;
+            font-family: 'Exo 2', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Тот самый анимированный фон, только светлый */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: linear-gradient(125deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+
+        .blob {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(52, 152, 219, 0.08) 0%, transparent 70%);
+            border-radius: 50%;
+            filter: blur(80px);
+            animation: move 25s infinite alternate;
+        }
+
+        @keyframes move {
+            from { transform: translate(-10%, -10%); }
+            to { transform: translate(30%, 30%); }
+        }
+
+        .gold-text {
+            background: linear-gradient(to right, #f39c12, #e67e22);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .blue-glow {
+            box-shadow: 0 10px 40px rgba(52, 152, 219, 0.2);
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
+        }
+
+        .hero-gradient {
+            background: radial-gradient(circle at center, rgba(52, 152, 219, 0.1) 0%, transparent 75%);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #3498db; border-radius: 10px; }
+
+        .floating { animation: floating 3s ease-in-out infinite; }
+        @keyframes floating {
+            0% { transform: translateY(0px) rotate(12deg); }
+            50% { transform: translateY(-20px) rotate(15deg); }
+            100% { transform: translateY(0px) rotate(12deg); }
+        }
+
+        .modal-download {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.6);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .icon-box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            border-radius: 12px;
+            color: white;
+            font-weight: bold;
+        }
+
+        /* Адаптация под мобилки */
+        @media (max-width: 768px) {
+            .hero-title { font-size: 2.75rem !important; }
+            .pricing-grid { gap: 1.5rem; }
+            .mobile-order { order: -1; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="animated-bg">
+        <div class="blob"></div>
+        <div class="blob" style="right: 0; bottom: 0; animation-delay: -7s;"></div>
+    </div>
+
+    <div id="downloadModal" class="modal-download px-6">
+        <div class="glass p-8 md:p-10 rounded-[40px] max-w-lg w-full text-center border-blue-200">
+            <div class="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6 text-blue-500">
+                <i class="fas fa-file-archive text-3xl"></i>
+            </div>
+            <h3 class="text-2xl md:text-3xl font-black mb-4 italic uppercase text-slate-800">Почти готово!</h3>
+            <p class="text-slate-500 mb-8 leading-relaxed text-sm">
+                Твой персональный билд расширения генерируется. <br><br>
+                1. Распакуй скачанный архив <span class="text-blue-600 font-bold">strong_key_v3.4.zip</span><br>
+                2. Зайди в <span class="text-blue-500 font-mono text-xs">chrome://extensions/</span> <br>
+                3. Включи <span class="text-slate-800 font-bold text-xs uppercase italic">"Режим разработчика"</span>. <br>
+                4. Нажми <span class="text-slate-800 font-bold text-xs uppercase italic">"Загрузить распакованное"</span>.
+            </p>
+            <button onclick="closeModal()" class="w-full py-4 bg-[#3498db] text-white rounded-2xl font-black uppercase hover:bg-blue-600 transition shadow-lg shadow-blue-500/30">
+                Понятно, скачиваю!
+            </button>
+        </div>
+    </div>
+
+    <header class="fixed w-full z-50 glass py-3 md:py-4 px-6 md:px-12 flex justify-between items-center border-none shadow-sm">
+        <div class="flex items-center gap-3">
+            <div class="w-9 h-9 md:w-10 md:h-10 icon-box shadow-[0_0_15px_rgba(52,152,219,0.4)]">
+                <i class="fas fa-key text-sm md:text-base"></i>
+            </div>
+            <span class="text-xl md:text-2xl font-black tracking-tighter uppercase italic text-slate-800">Strong <span class="text-[#3498db]">Key</span></span>
+        </div>
+        <nav class="hidden md:flex gap-8 text-sm font-semibold uppercase tracking-widest text-slate-600">
+            <a href="#features" class="hover:text-[#3498db] transition">Возможности</a>
+            <a href="#how-it-works" class="hover:text-[#3498db] transition">Инструкция</a>
+            <a href="#pricing" class="hover:text-[#3498db] transition">Тарифы</a>
+        </nav>
+        <button onclick="startDownload()" class="bg-[#3498db] text-white hover:bg-blue-600 px-5 md:px-6 py-2 rounded-full font-bold transition transform hover:scale-105 active:scale-95 text-[10px] md:text-xs uppercase tracking-wider">
+            Установить
+        </button>
+    </header>
+
+    <section class="relative min-h-screen flex flex-col justify-center items-center text-center px-4 pt-20 hero-gradient">
+        <div class="mb-6 inline-block py-1 px-4 rounded-full border border-blue-200 bg-blue-50 text-blue-600 text-[10px] md:text-xs font-bold tracking-[0.3em] uppercase animate-pulse">
+            Direct 3x-ui Connection v3.4
+        </div>
+
+        <h1 class="hero-title text-5xl md:text-8xl font-black mb-6 leading-tight text-slate-900 uppercase italic">
+            ТВОЙ YOUTUBE <br> 
+            <span class="gold-text uppercase tracking-tighter">СНОВА ЖИВОЙ</span>
+        </h1>
+
+        <p class="max-w-2xl text-slate-500 text-base md:text-xl mb-10 leading-relaxed">
+            Мы создаем выделенный протокол в панели 3x-ui специально под каждое скачивание. 
+            Никаких общих серверов — только твоя выделенная скорость в 4K.
+        </p>
+
+        <div class="flex flex-col md:flex-row gap-6 items-center">
+            <button onclick="startDownload()" class="w-full md:w-auto group relative px-10 py-5 bg-[#3498db] rounded-2xl font-black text-xl overflow-hidden transition-all hover:scale-110 blue-glow text-white uppercase italic">
+                <span class="relative z-10">Получить доступ</span>
+                <div class="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500"></div>
+            </button>
+            <div class="text-left flex items-center gap-3">
+                <div class="flex -space-x-3">
+                    <div class="w-10 h-10 rounded-full border-2 border-white bg-slate-200 flex items-center justify-center text-[10px] text-slate-500"><i class="fas fa-user"></i></div>
+                    <div class="w-10 h-10 rounded-full border-2 border-white bg-slate-300 flex items-center justify-center text-[10px] text-slate-500"><i class="fas fa-user"></i></div>
+                    <div class="w-10 h-10 rounded-full bg-[#3498db] flex items-center justify-center text-[10px] font-bold text-white uppercase tracking-tighter">LIVE</div>
+                </div>
+                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-tighter w-24">Сотни пользователей онлайн</p>
+            </div>
+        </div>
+
+        <div class="mt-16 md:mt-20 floating">
+            <div class="w-32 h-32 md:w-48 md:h-48 bg-white rounded-[40px] flex items-center justify-center shadow-2xl shadow-blue-500/20 rotate-12 border border-blue-50">
+                <i class="fas fa-key text-6xl md:text-8xl text-[#3498db]"></i>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-16 md:py-20 bg-white/50 border-y border-slate-100">
+        <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-12 text-center">
+            <div>
+                <div class="text-3xl md:text-5xl font-black text-[#3498db] mb-2 uppercase">Isolated</div>
+                <p class="text-[10px] text-slate-400 uppercase tracking-widest font-bold">Свой протокол для каждого</p>
+            </div>
+            <div>
+                <div class="text-3xl md:text-5xl font-black text-[#3498db] mb-2 uppercase">1 Hour</div>
+                <p class="text-[10px] text-slate-400 uppercase tracking-widest font-bold">Бесплатный тест-драйв</p>
+            </div>
+            <div>
+                <div class="text-3xl md:text-5xl font-black text-[#3498db] mb-2 uppercase">Reality</div>
+                <p class="text-[10px] text-slate-400 uppercase tracking-widest font-bold">Маскировка под Microsoft</p>
+            </div>
+            <div>
+                <div class="text-3xl md:text-5xl font-black text-[#3498db] mb-2 uppercase">4K Ready</div>
+                <p class="text-[10px] text-slate-400 uppercase tracking-widest font-bold">Безлимитный поток</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="py-20 md:py-32 container mx-auto px-6">
+        <h2 class="text-3xl md:text-6xl font-black text-center mb-16 md:mb-20 uppercase text-slate-800 leading-tight">Твои преимущества</h2>
+        <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+            <div class="glass p-8 md:p-10 rounded-[40px] border-blue-200 bg-white hover:border-blue-500/50 transition duration-500 group">
+                <div class="w-16 h-16 bg-yellow-50 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition">
+                    <i class="fas fa-hourglass-start text-3xl text-yellow-500"></i>
+                </div>
+                <h3 class="text-2xl font-bold mb-4 italic uppercase text-slate-800">Бесплатный Час</h3>
+                <p class="text-slate-500 leading-relaxed text-sm">У тебя есть полные 60 минут, чтобы убедиться: YouTube летает, контент грузится мгновенно.</p>
+            </div>
+            <div class="glass p-8 md:p-10 rounded-[40px] border-slate-100 bg-white hover:border-blue-500/50 transition duration-500 group">
+                <div class="w-16 h-16 bg-purple-50 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition">
+                    <i class="fas fa-credit-card text-3xl text-purple-500"></i>
+                </div>
+                <h3 class="text-2xl font-bold mb-4 italic uppercase text-slate-800">Продление в 1 клик</h3>
+                <p class="text-slate-500 leading-relaxed text-sm">Когда время истечет, расширение само предложит тебе удобный тариф прямо внутри интерфейса.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="how-it-works" class="py-20 md:py-32 bg-slate-50 relative overflow-hidden">
+        <div class="container mx-auto px-6 flex flex-col md:flex-row items-center gap-16 md:gap-20">
+            <div class="flex-1">
+                <h2 class="text-4xl md:text-7xl font-black uppercase leading-tight mb-8 text-slate-900">
+                    ТЫ В ОДНОМ ШАГЕ <br> ОТ <span class="text-[#3498db]">СВОБОДЫ</span>
+                </h2>
+                <div class="space-y-8">
+                    <div class="flex gap-6 items-start">
+                        <div class="w-12 h-12 rounded-full border-2 border-blue-500 flex-shrink-0 flex items-center justify-center font-black text-xl text-blue-500">1</div>
+                        <div>
+                            <h4 class="text-xl font-bold uppercase mb-2 text-slate-800">Скачай расширение</h4>
+                            <p class="text-slate-500 text-sm">Получи персональный ZIP-архив с твоими преднастроенными ключами.</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-6 items-start">
+                        <div class="w-12 h-12 rounded-full border-2 border-blue-500 flex-shrink-0 flex items-center justify-center font-black text-xl text-blue-500">2</div>
+                        <div>
+                            <h4 class="text-xl font-bold uppercase mb-2 text-slate-800">Установи в браузер</h4>
+                            <p class="text-slate-500 text-sm">Включи режим разработчика и загрузи папку. Это займет ровно 30 секунд.</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-6 items-start">
+                        <div class="w-12 h-12 rounded-full border-2 border-blue-500 bg-blue-500 flex-shrink-0 flex items-center justify-center font-black text-xl text-white">3</div>
+                        <div>
+                            <h4 class="text-xl font-bold uppercase mb-2 text-slate-800">Включи и смотри</h4>
+                            <p class="text-slate-500 text-sm">Твой персональный канал в панели 3x-ui активируется мгновенно.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex-1 relative w-full">
+                <div class="glass p-6 md:p-8 rounded-[50px] relative z-10 md:rotate-3 transform hover:rotate-0 transition duration-700 aspect-video flex flex-col items-center justify-center border-blue-100 shadow-2xl bg-white">
+                   <i class="fas fa-rocket text-7xl md:text-8xl text-blue-500 mb-6 drop-shadow-[0_0_20px_rgba(52,152,219,0.3)]"></i>
+                   <div class="text-center">
+                       <p class="text-xs font-mono text-blue-400 uppercase tracking-widest mb-2">System Status: Optimized</p>
+                       <p class="text-xl font-black uppercase italic text-slate-800">4K Streaming Active</p>
+                   </div>
+                    <div class="absolute -bottom-6 -left-2 md:-left-6 glass px-5 py-3 rounded-3xl blue-glow bg-white">
+                        <div class="flex items-center gap-3">
+                            <div class="w-3 h-3 bg-green-500 rounded-full animate-ping"></div>
+                            <span class="font-bold tracking-widest text-[9px] uppercase text-slate-600">Server: Frankfurt-01</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="pricing" class="py-20 md:py-32 container mx-auto px-6 text-center">
+        <h2 class="text-5xl md:text-8xl font-black mb-10 gold-text uppercase">ТВОЙ ТАРИФ</h2>
+        <p class="text-base md:text-xl text-slate-400 mb-16 md:20 max-w-2xl mx-auto italic">
+            Только честная цена за персональный выделенный канал.
+        </p>
+        <div class="grid md:grid-cols-3 gap-8 items-end max-w-5xl mx-auto">
+            <div class="glass p-10 rounded-[50px] border-slate-100 transition hover:scale-105 bg-white">
+                <h4 class="text-xl font-bold uppercase mb-4 text-blue-500">Демо-доступ</h4>
+                <div class="text-4xl md:text-5xl font-black mb-8 italic uppercase tracking-tighter text-slate-800">1 ЧАС</div>
+                <ul class="text-left space-y-4 mb-10 text-[10px] text-slate-400 uppercase tracking-tighter font-bold">
+                    <li><i class="fas fa-check text-blue-500 mr-2"></i> Персональный конфиг</li>
+                    <li><i class="fas fa-check text-blue-500 mr-2"></i> 4K без тормозов</li>
+                </ul>
+                <button onclick="startDownload()" class="w-full py-4 border-2 border-blue-50 rounded-2xl font-black text-blue-500 hover:bg-blue-50 transition uppercase italic">ПОПРОБОВАТЬ</button>
+            </div>
+            <div class="glass p-10 rounded-[50px] border-slate-100 transition hover:scale-105 bg-white mobile-order">
+                <h4 class="text-xl font-bold uppercase mb-4 text-slate-400">НЕДЕЛЯ</h4>
+                <div class="text-4xl md:text-5xl font-black mb-8 italic text-slate-800">150₽</div>
+                <ul class="text-left space-y-4 mb-10 text-[10px] text-slate-400 uppercase tracking-tighter font-bold">
+                    <li><i class="fas fa-check text-green-500 mr-2"></i> 7 дней безлимита</li>
+                    <li><i class="fas fa-check text-green-500 mr-2"></i> Поддержка 24/7</li>
+                </ul>
+                <button class="w-full py-4 border-2 border-slate-50 rounded-2xl font-black text-slate-400 hover:bg-slate-50 transition uppercase italic">ВЫБРАТЬ</button>
+            </div>
+            <div class="relative group">
+                <div class="absolute -top-5 left-1/2 -translate-x-1/2 bg-yellow-400 text-white text-[10px] font-black px-6 py-1 rounded-full uppercase tracking-widest z-20 shadow-lg shadow-yellow-200">
+                    ЛУЧШАЯ ЦЕНА
+                </div>
+                <div class="glass p-10 md:p-12 rounded-[50px] border-yellow-200 bg-white scale-105 md:scale-110 blue-glow relative overflow-hidden">
+                    <h4 class="text-2xl font-black uppercase mb-4 text-yellow-500">МЕСЯЦ</h4>
+                    <div class="text-5xl md:text-6xl font-black mb-8 italic text-slate-800">500₽</div>
+                    <ul class="text-left space-y-4 mb-12 font-bold uppercase text-[10px] tracking-wider text-slate-400">
+                        <li class="flex items-center text-slate-600"><i class="fas fa-crown text-yellow-500 mr-3"></i> 30 дней Максимум</li>
+                        <li class="flex items-center"><i class="fas fa-check text-yellow-500 mr-3"></i> 3 устройства</li>
+                    </ul>
+                    <button class="w-full py-5 bg-yellow-400 hover:bg-yellow-500 text-white font-black text-xl rounded-2xl transition transform hover:scale-105 shadow-xl shadow-yellow-200 uppercase italic">
+                        ПОДКЛЮЧИТЬ
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-20 bg-white border-t border-slate-100 text-center">
+        <div class="mb-10 flex justify-center items-center gap-3">
+             <div class="w-9 h-9 icon-box text-xs">
+                <i class="fas fa-key"></i>
+            </div>
+            <span class="text-xl font-black tracking-tighter uppercase italic text-slate-300">Strong Key</span>
+        </div>
+        <p class="text-slate-300 text-[8px] mb-8 uppercase tracking-[1.5em]">Engineered for Sovereignty © 2026</p>
+        <div class="flex justify-center gap-8 text-slate-300 mb-10">
+            <a href="#" class="hover:text-blue-500 transition"><i class="fab fa-telegram-plane text-2xl"></i></a>
+            <a href="#" class="hover:text-slate-800 transition"><i class="fab fa-github text-2xl"></i></a>
+        </div>
+        <p class="text-[9px] text-slate-400 max-w-xl mx-auto px-6 uppercase italic tracking-tighter">
+            Данный сервис не является призывом к нарушению законодательства. Мы лишь предоставляем инструмент для реализации конституционного права на свободный доступ к информации.
+        </p>
+    </footer>
+
+    <script>
+        function startDownload() {
+            document.getElementById('downloadModal').style.display = 'flex';
+            console.log("Initiating server-side profile creation in 3x-ui...");
+        }
+
+        function closeModal() {
+            document.getElementById('downloadModal').style.display = 'none';
+        }
+
+        // Те самые искры (теперь они светлые/синие)
+        const body = document.body;
+        for(let i = 0; i < 20; i++) {
+            let spark = document.createElement('div');
+            spark.style.position = 'fixed';
+            spark.style.width = Math.random() * 2 + 'px';
+            spark.style.height = Math.random() * 60 + 'px';
+            spark.style.background = 'linear-gradient(to bottom, transparent, #3498db, transparent)';
+            spark.style.left = Math.random() * 100 + 'vw';
+            spark.style.top = Math.random() * 100 + 'vh';
+            spark.style.opacity = Math.random() * 0.3;
+            spark.style.zIndex = '-1';
+            body.appendChild(spark);
+        }
+    </script>
+</body>
+</html>
