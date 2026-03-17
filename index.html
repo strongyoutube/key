@@ -2,9 +2,9 @@
 <html lang="ru" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     
-    <link rel="icon" type="image/png" href="https://github.com/strongyoutube/key/blob/main/favicon.png?raw=true">
+    <link rel="icon" type="image/png" href="https://github.com/strongyoutube/key/blob/main/favicon-64x64.png?raw=true">
     
     <title>YouTube Revive | Strong Key Edition — Оживи свой Ютуб без границ</title>
     <meta name="description" content="Strong Key — уникальное решение для оживления YouTube. Получи персональный 3x-ui конфиг, VLESS и Reality протоколы для обхода замедления Ютуба в 4K. Твой интернет снова свободен.">
@@ -23,7 +23,7 @@
     <meta name="twitter:description" content="Персональный обход ограничений YouTube с помощью технологии Strong Key.">
     <meta name="twitter:image" content="https://github.com/strongyoutube/key/blob/main/youtube.webp?raw=true">
 
-    <meta name="theme-color" content="#3498db">
+    <meta name="theme-color" content="#0a0a0a">
     <link rel="canonical" href="https://strongyoutube.github.io/key/">
 
     <script src="https://cdn.tailwindcss.com"></script>
@@ -35,7 +35,7 @@
         :root {
             --primary: #3498db;
             --secondary: #f1c40f;
-            --dark: #0a0a0a;
+            --dark: #1a1a1a;
             --card: #161616;
         }
 
@@ -44,6 +44,7 @@
             color: white;
             font-family: 'Exo 2', sans-serif;
             overflow-x: hidden;
+            width: 100%;
         }
 
         .gold-text {
@@ -63,35 +64,38 @@
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        /* МАКСИМАЛЬНО ЯРКИЙ ФОН */
         .hero-gradient {
-            background: linear-gradient(to bottom, rgba(10, 10, 10, 0.2), rgba(10, 10, 10, 0.4)), 
+            background: linear-gradient(to bottom, rgba(10, 10, 10, 0.15), rgba(10, 10, 10, 0.8)), 
                         url('https://github.com/strongyoutube/key/blob/main/youtube.webp?raw=true');
             background-size: cover;
             background-position: center;
-            background-attachment: fixed;
+            background-attachment: scroll; /* Для мобильных лучше scroll, fixed часто лагает */
         }
 
-        ::-webkit-scrollbar { width: 8px; }
+        @media (min-width: 768px) {
+            .hero-gradient { background-attachment: fixed; }
+        }
+
+        ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #0a0a0a; }
         ::-webkit-scrollbar-thumb { background: #3498db; border-radius: 10px; }
 
         .floating { animation: floating 3s ease-in-out infinite; }
         @keyframes floating {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-            100% { transform: translateY(0px); }
+            0% { transform: translateY(0px) rotate(12deg); }
+            50% { transform: translateY(-15px) rotate(15deg); }
+            100% { transform: translateY(0px) rotate(12deg); }
         }
 
         .modal-download {
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.9);
+            background: rgba(0,0,0,0.95);
             z-index: 1000;
             justify-content: center;
             align-items: center;
-            backdrop-filter: blur(20px);
+            backdrop-filter: blur(15px);
         }
 
         .icon-box {
@@ -105,181 +109,234 @@
         }
     </style>
 </head>
-<body>
+<body class="antialiased">
 
-    <div id="downloadModal" class="modal-download px-6">
-        <div class="glass p-10 rounded-[40px] max-w-lg w-full text-center border-blue-500/30">
-            <div class="w-20 h-20 bg-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
-                <i class="fas fa-file-archive text-3xl text-blue-400"></i>
+    <div id="downloadModal" class="modal-download px-4">
+        <div class="glass p-6 md:p-10 rounded-[30px] md:rounded-[40px] max-w-lg w-full text-center border-blue-500/30">
+            <div class="w-16 h-16 bg-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                <i class="fas fa-file-archive text-2xl text-blue-400"></i>
             </div>
-            <h3 class="text-3xl font-black mb-4 italic uppercase text-white">Почти готово!</h3>
-            <p class="text-gray-400 mb-8 leading-relaxed text-sm text-left px-4">
-                Твой персональный билд расширения генерируется. <br><br>
-                1. Распакуй архив <span class="text-white font-bold">strong_key_v3.4.zip</span><br>
-                2. Зайди в <span class="text-blue-400 font-mono text-xs">chrome://extensions/</span> <br>
-                3. Включи <span class="text-white font-bold">"Режим разработчика"</span>. <br>
-                4. Нажми <span class="text-white font-bold">"Загрузить распакованное"</span>.
-            </p>
+            <h3 class="text-2xl md:text-3xl font-black mb-4 italic uppercase text-white">Почти готово!</h3>
+            <div class="text-gray-400 mb-8 leading-relaxed text-xs md:text-sm text-left space-y-4">
+                <p>1. Распакуй архив <span class="text-white font-bold">strong_key_v3.4.zip</span></p>
+                <p>2. Зайди в <span class="text-blue-400 font-mono">chrome://extensions/</span></p>
+                <p>3. Включи <span class="text-white font-bold">"Режим разработчика"</span>.</p>
+                <p>4. Нажми <span class="text-white font-bold">"Загрузить распакованное"</span>.</p>
+            </div>
             <button onclick="closeModal()" class="w-full py-4 bg-blue-500 rounded-2xl font-black uppercase hover:bg-blue-600 transition shadow-lg shadow-blue-500/20 text-white">
                 Понятно, скачиваю!
             </button>
         </div>
     </div>
 
-    <header class="fixed w-full z-50 glass py-4 px-6 md:px-12 flex justify-between items-center">
-        <div class="flex items-center gap-3">
-            <div class="w-10 h-10 icon-box shadow-[0_0_15px_#3498db]">
-                <i class="fas fa-key"></i>
+    <header class="fixed w-full z-50 glass py-3 md:py-4 px-4 md:px-12 flex justify-between items-center">
+        <div class="flex items-center gap-2 md:gap-3">
+            <div class="w-8 h-8 md:w-10 md:h-10 icon-box shadow-[0_0_15px_#3498db]">
+                <i class="fas fa-key text-sm md:text-base"></i>
             </div>
-            <span class="text-2xl font-black tracking-tighter uppercase italic text-white">Strong <span class="text-[#3498db]">Key</span></span>
+            <span class="text-lg md:text-2xl font-black tracking-tighter uppercase italic text-white">Strong <span class="text-[#3498db]">Key</span></span>
         </div>
-        <nav class="hidden md:flex gap-8 text-sm font-semibold uppercase tracking-widest">
+        <nav class="hidden lg:flex gap-8 text-sm font-semibold uppercase tracking-widest">
             <a href="#features" class="hover:text-[#3498db] transition">Возможности</a>
             <a href="#how-it-works" class="hover:text-[#3498db] transition">Инструкция</a>
             <a href="#pricing" class="hover:text-[#3498db] transition">Тарифы</a>
         </nav>
-        <button onclick="startDownload()" class="bg-[#3498db] hover:bg-blue-600 px-6 py-2 rounded-full font-bold transition transform hover:scale-105 active:scale-95 text-white text-xs uppercase tracking-wider">
+        <button onclick="startDownload()" class="bg-[#3498db] hover:bg-blue-600 px-4 md:px-6 py-2 rounded-full font-bold transition transform hover:scale-105 active:scale-95 text-white text-[10px] md:text-xs uppercase tracking-wider">
             Установить
         </button>
     </header>
 
-    <section class="relative min-h-screen flex flex-col justify-center items-start text-left px-6 md:px-24 pt-20 hero-gradient">
-        <div class="absolute top-20 left-1/4 w-[800px] h-[800px] bg-blue-500/10 rounded-full blur-[120px] -z-10"></div>
-        
-        <div class="mb-6 inline-block py-1 px-4 rounded-full border border-blue-500/30 bg-blue-500/10 text-blue-400 text-[10px] font-bold tracking-[0.3em] uppercase animate-pulse">
-            Direct 3x-ui Connection v3.4
-        </div>
+    <main>
+        <section class="relative min-h-screen flex flex-col justify-center items-center lg:items-start text-center lg:text-left px-6 md:px-24 pt-24 pb-12 hero-gradient overflow-hidden">
+            <div class="absolute top-20 left-1/2 lg:left-1/4 -translate-x-1/2 w-[300px] md:w-[800px] h-[300px] md:h-[800px] bg-blue-500/10 rounded-full blur-[80px] md:blur-[120px] -z-10"></div>
+            
+            <div class="mb-6 inline-block py-1 px-4 rounded-full border border-blue-500/30 bg-blue-500/10 text-blue-400 text-[9px] md:text-[10px] font-bold tracking-[0.2em] md:tracking-[0.3em] uppercase animate-pulse">
+                Direct 3x-ui Connection v3.4
+            </div>
 
-        <h1 class="text-4xl md:text-6xl font-black mb-6 leading-tight text-white">
-            ТВОЙ YOUTUBE <br> 
-            <span class="gold-text uppercase tracking-tighter">СНОВА ЖИВОЙ</span>
-        </h1>
+            <h1 class="text-4xl md:text-6xl lg:text-8xl font-black mb-6 leading-[1.1] text-white">
+                ТВОЙ YOUTUBE <br> 
+                <span class="gold-text uppercase tracking-tighter">СНОВА ЖИВОЙ</span>
+            </h1>
 
-        <p class="max-w-xl text-gray-200 text-sm md:text-base mb-10 leading-relaxed font-medium">
-            Мы создаем выделенный протокол в панели 3x-ui специально под каждое скачивание. 
-            Никаких общих серверов — только твоя выделенная скорость в 4K.
-        </p>
+            <p class="max-w-xl text-gray-200 text-sm md:text-lg mb-10 leading-relaxed font-medium">
+                Мы создаем выделенный протокол в панели 3x-ui специально под каждое скачивание. 
+                Никаких общих серверов — только твоя выделенная скорость в 4K.
+            </p>
 
-        <div class="flex flex-col md:flex-row gap-8 items-center">
-            <button onclick="startDownload()" class="group relative px-10 py-5 bg-[#3498db] rounded-2xl font-black text-lg overflow-hidden transition-all hover:scale-110 blue-glow text-white uppercase italic">
-                <span class="relative z-10">Получить доступ</span>
-                <div class="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500"></div>
-            </button>
+            <div class="flex flex-col sm:flex-row gap-6 md:gap-8 items-center w-full sm:w-auto">
+                <button onclick="startDownload()" class="w-full sm:w-auto group relative px-8 md:px-10 py-4 md:py-5 bg-[#3498db] rounded-2xl font-black text-base md:text-lg overflow-hidden transition-all hover:scale-105 blue-glow text-white uppercase italic">
+                    <span class="relative z-10">Получить доступ</span>
+                    <div class="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500"></div>
+                </button>
 
-            <div class="glass flex items-center gap-4 p-4 px-6 rounded-2xl border border-white/10 shadow-xl">
-                <div class="flex items-center gap-3">
-                    <span class="relative flex h-3 w-3">
-                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
-                    </span>
-                    <div class="flex flex-col leading-none">
-                        <span class="text-white font-black text-xl tracking-widest uppercase italic">LIVE</span>
-                        <span class="text-[9px] text-gray-400 uppercase font-bold tracking-[0.2em]">Сеть стабильна</span>
+                <div class="glass flex items-center gap-4 p-3 md:p-4 px-6 rounded-2xl border border-white/10 shadow-xl">
+                    <div class="flex items-center gap-3">
+                        <span class="relative flex h-3 w-3">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+                        </span>
+                        <div class="flex flex-col leading-none">
+                            <span class="text-white font-black text-lg md:text-xl tracking-widest uppercase italic">LIVE</span>
+                            <span class="text-[8px] md:text-[9px] text-gray-400 uppercase font-bold tracking-[0.1em]">Сеть стабильна</span>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="mt-16 floating">
-            <div class="w-24 h-24 md:w-32 md:h-32 bg-gradient-to-br from-yellow-400 to-orange-600 rounded-[30px] flex items-center justify-center shadow-[0_0_40px_rgba(241,196,15,0.5)] rotate-12 border-4 border-yellow-300/20">
-                <i class="fas fa-key text-4xl md:text-5xl text-black"></i>
-            </div>
-        </div>
-    </section>
-
-    <section class="py-20 bg-black/80 border-y border-white/5 relative z-10">
-        <div class="container mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-12 text-center">
-            <div>
-                <div class="text-4xl md:text-5xl font-black text-[#3498db] mb-2 uppercase italic">Isolated</div>
-                <p class="text-[10px] text-gray-500 uppercase tracking-widest font-bold">Свой протокол для каждого</p>
-            </div>
-            <div>
-                <div class="text-4xl md:text-5xl font-black text-[#3498db] mb-2 uppercase italic">1 Hour</div>
-                <p class="text-[10px] text-gray-500 uppercase tracking-widest font-bold">Бесплатный тест-драйв</p>
-            </div>
-            <div>
-                <div class="text-4xl md:text-5xl font-black text-[#3498db] mb-2 uppercase italic">Reality</div>
-                <p class="text-[10px] text-gray-500 uppercase tracking-widest font-bold">Маскировка под Microsoft</p>
-            </div>
-            <div>
-                <div class="text-4xl md:text-5xl font-black text-[#3498db] mb-2 uppercase italic">4K Ready</div>
-                <p class="text-[10px] text-gray-500 uppercase tracking-widest font-bold">Безлимитный поток</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="features" class="py-32 container mx-auto px-6 relative z-10">
-        <h2 class="text-4xl md:text-6xl font-black text-center mb-20 uppercase text-white leading-tight italic">Твои преимущества</h2>
-        <div class="grid md:grid-cols-2 gap-8 text-white max-w-5xl mx-auto">
-            <div class="glass p-10 rounded-[40px] border-blue-500/20 bg-blue-500/5 hover:border-blue-500/50 transition duration-500 group">
-                <div class="w-16 h-16 bg-yellow-500/10 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition">
-                    <i class="fas fa-hourglass-start text-3xl text-yellow-400"></i>
+            <div class="mt-12 md:mt-16 floating">
+                <div class="w-20 h-20 md:w-32 md:h-32 bg-gradient-to-br from-yellow-400 to-orange-600 rounded-[25px] md:rounded-[30px] flex items-center justify-center shadow-[0_0_40px_rgba(241,196,15,0.5)] rotate-12 border-4 border-yellow-300/20">
+                    <i class="fas fa-key text-3xl md:text-5xl text-black"></i>
                 </div>
-                <h3 class="text-2xl font-bold mb-4 italic uppercase">Бесплатный Час</h3>
-                <p class="text-gray-400 leading-relaxed text-sm">У тебя есть полные 60 минут, чтобы убедиться: YouTube летает, Instagram открывается, а контент грузится мгновенно.</p>
             </div>
-            <div class="glass p-10 rounded-[40px] hover:border-blue-500/50 transition duration-500 group">
-                <div class="w-16 h-16 bg-purple-500/10 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition">
-                    <i class="fas fa-credit-card text-3xl text-purple-400"></i>
-                </div>
-                <h3 class="text-2xl font-bold mb-4 italic uppercase">Продление за секунды</h3>
-                <p class="text-gray-400 leading-relaxed text-sm">Когда время истечет, расширение само предложит тебе удобный тариф. Оплатил — и работаешь дальше без переустановок.</p>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="how-it-works" class="py-32 bg-[#111] relative overflow-hidden">
+        <section class="py-16 md:py-20 bg-black/90 border-y border-white/5 relative z-10">
+            <div class="container mx-auto px-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 text-center">
+                <div class="p-4">
+                    <div class="text-3xl md:text-5xl font-black text-[#3498db] mb-2 uppercase italic">Isolated</div>
+                    <p class="text-[10px] text-gray-500 uppercase tracking-widest font-bold">Свой протокол для каждого</p>
+                </div>
+                <div class="p-4">
+                    <div class="text-3xl md:text-5xl font-black text-[#3498db] mb-2 uppercase italic">1 Hour</div>
+                    <p class="text-[10px] text-gray-500 uppercase tracking-widest font-bold">Бесплатный тест-драйв</p>
+                </div>
+                <div class="p-4">
+                    <div class="text-3xl md:text-5xl font-black text-[#3498db] mb-2 uppercase italic">Reality</div>
+                    <p class="text-[10px] text-gray-500 uppercase tracking-widest font-bold">Маскировка под Microsoft</p>
+                </div>
+                <div class="p-4">
+                    <div class="text-3xl md:text-5xl font-black text-[#3498db] mb-2 uppercase italic">4K Ready</div>
+                    <p class="text-[10px] text-gray-500 uppercase tracking-widest font-bold">Безлимитный поток</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="how-it-works" class="py-32 bg-[#1a1a1a] relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-1/2 h-full bg-blue-500/5 -skew-x-12 transform origin-top"></div>
         <div class="container mx-auto px-6 flex flex-col md:flex-row items-center gap-20">
             <div class="flex-1">
-                <h2 class="text-5xl md:text-7xl font-black uppercase leading-tight mb-8 italic text-white">ТЫ В ШАГЕ <br> ОТ <span class="text-[#3498db]">СВОБОДЫ</span></h2>
+                <h2 class="text-5xl md:text-7xl font-black uppercase leading-tight mb-8">
+                    ТЫ В ОДНОМ ШАГЕ <br> ОТ <span class="text-[#3498db]">СВОБОДЫ</span>
+                </h2>
                 <div class="space-y-8">
-                    <div class="flex gap-6 items-start">
-                        <div class="w-12 h-12 rounded-full border-2 border-blue-500 flex-shrink-0 flex items-center justify-center font-black text-xl italic">1</div>
-                        <div><h4 class="text-xl font-bold uppercase mb-2">Скачай архив</h4><p class="text-gray-400 text-sm">Получи ZIP с твоими преднастроенными ключами.</p></div>
-                    </div>
-                    <div class="flex gap-6 items-start">
-                        <div class="w-12 h-12 rounded-full border-2 border-blue-500 flex-shrink-0 flex items-center justify-center font-black text-xl italic">2</div>
-                        <div><h4 class="text-xl font-bold uppercase mb-2">Установи расширение</h4><p class="text-gray-400 text-sm">Загрузи распакованную папку в браузер за 30 секунд.</p></div>
+    <div class="flex gap-6 items-start">
+        <div class="w-12 h-12 rounded-full border-2 border-blue-500 flex-shrink-0 flex items-center justify-center font-black text-xl">1</div>
+        <div>
+            <h4 class="text-xl font-bold uppercase mb-2">Скачай и подготовь архив</h4>
+            <p class="text-gray-400 text-sm leading-relaxed">
+                Нажми кнопку «Установить» и сохрани ZIP-архив на компьютер. <br>
+                <span class="text-white font-semibold">Важно:</span> Обязательно извлеки все файлы из архива в отдельную папку (например, на рабочий стол), прежде чем переходить к установке.
+            </p>
+        </div>
+    </div>
+
+    <div class="flex gap-6 items-start">
+        <div class="w-12 h-12 rounded-full border-2 border-blue-500 flex-shrink-0 flex items-center justify-center font-black text-xl">2</div>
+        <div>
+            <h4 class="text-xl font-bold uppercase mb-2">Активируй в браузере</h4>
+            <p class="text-gray-400 text-sm leading-relaxed">
+                Открой настройки расширений (введи <span class="text-blue-400 font-mono text-xs">chrome://extensions/</span> в адресную строку). <br>
+                Включите переключатель <span class="text-white">"Режим разработчика"</span> в правом верхнем углу. Нажми кнопку <span class="text-white">"Загрузить распакованное расширение"</span> и выбери папку, которую ты извлек из архива.
+            </p>
+        </div>
+    </div>
+
+    <div class="flex gap-6 items-start text-[#3498db]">
+        <div class="w-12 h-12 rounded-full border-2 border-current flex-shrink-0 flex items-center justify-center font-black text-xl">3</div>
+        <div>
+            <h4 class="text-xl font-bold uppercase mb-2 text-white">Включи и пользуйся</h4>
+            <p class="text-gray-200 text-sm leading-relaxed">
+                Закрепи значок Strong Key на панели браузера. Нажми на него и активируй соединение. <br>
+                Твой персональный ключ в панели уже настроен и готов к работе — просто открывай YouTube.
+            </p>
+        </div>
+    </div>
+</div>
+            </div>
+            <div class="flex-1 relative">
+                <div class="absolute inset-0 bg-[#3498db] blur-[150px] opacity-20 animate-pulse"></div>
+                <div class="glass p-6 rounded-[50px] relative z-10 rotate-3 transform hover:rotate-0 transition duration-700 aspect-video flex flex-col items-center justify-center border-white/10 shadow-2xl bg-black/40">
+                   <i class="fas fa-rocket text-8xl text-blue-500 mb-6 drop-shadow-[0_0_20px_#3498db]"></i>
+                   <div class="text-center">
+                       <p class="text-xs font-mono text-blue-400 uppercase tracking-widest">System Status: Optimized</p>
+                       <p class="text-xl font-black uppercase italic">4K Streaming Active</p>
+                   </div>
+                    <div class="absolute -bottom-6 -left-6 glass px-6 py-4 rounded-3xl blue-glow">
+                        <div class="flex items-center gap-4">
+                            <div class="w-3 h-3 bg-green-500 rounded-full animate-ping"></div>
+                            <span class="font-bold tracking-widest text-[10px] uppercase">Server: Frankfurt-01</span>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="flex-1 glass p-10 rounded-[50px] text-center border-blue-500/20">
-                <i class="fas fa-rocket text-8xl text-blue-500 mb-6 floating drop-shadow-[0_0_20px_#3498db]"></i>
-                <p class="text-2xl font-black uppercase italic text-white">4K Streaming Active</p>
-            </div>
         </div>
     </section>
 
-    <section id="pricing" class="py-32 container mx-auto px-6 text-center">
-        <h2 class="text-5xl md:text-8xl font-black mb-10 gold-text uppercase italic">ТВОЙ ТАРИФ</h2>
-        <div class="grid md:grid-cols-3 gap-8 items-end max-w-5xl mx-auto text-white">
-            <div class="glass p-10 rounded-[50px] border-white/5 transition hover:scale-105">
-                <h4 class="text-xl font-bold uppercase mb-4 text-blue-400">Демо</h4>
-                <div class="text-5xl font-black mb-8 italic uppercase">1 ЧАС</div>
-                <button onclick="startDownload()" class="w-full py-4 border border-blue-500/30 rounded-2xl font-bold hover:bg-blue-500/10 transition uppercase italic">ПОПРОБОВАТЬ</button>
+        <section id="how-it-works" class="py-24 md:py-32 bg-[#0f0f0f] relative overflow-hidden">
+            <div class="container mx-auto px-6 flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+                <div class="flex-1 w-full text-center lg:text-left">
+                    <h2 class="text-4xl md:text-7xl font-black uppercase leading-tight mb-12 italic text-white">ТЫ В ШАГЕ <br> ОТ <span class="text-[#3498db]">СВОБОДЫ</span></h2>
+                    <div class="space-y-8 text-left max-w-xl mx-auto lg:mx-0">
+                        <div class="flex gap-4 md:gap-6 items-start">
+                            <div class="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-blue-500 flex-shrink-0 flex items-center justify-center font-black text-lg md:text-xl italic">1</div>
+                            <div>
+                                <h4 class="text-lg md:text-xl font-bold uppercase mb-1">Скачай архив</h4>
+                                <p class="text-gray-400 text-xs md:text-sm">Получи ZIP с твоими преднастроенными ключами.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4 md:gap-6 items-start">
+                            <div class="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-blue-500 flex-shrink-0 flex items-center justify-center font-black text-lg md:text-xl italic">2</div>
+                            <div>
+                                <h4 class="text-lg md:text-xl font-bold uppercase mb-1">Установи расширение</h4>
+                                <p class="text-gray-400 text-xs md:text-sm">Загрузи распакованную папку в браузер за 30 секунд.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex-1 w-full lg:w-auto glass p-8 md:p-12 rounded-[40px] md:rounded-[50px] text-center border-blue-500/20 relative">
+                    <div class="absolute inset-0 bg-blue-500/5 blur-3xl rounded-full"></div>
+                    <i class="fas fa-rocket text-6xl md:text-8xl text-blue-500 mb-6 floating drop-shadow-[0_0_20px_#3498db]"></i>
+                    <p class="text-xl md:text-2xl font-black uppercase italic text-white">4K Streaming Active</p>
+                </div>
             </div>
-            <div class="glass p-10 rounded-[50px] border-white/5 transition hover:scale-105">
-                <h4 class="text-xl font-bold uppercase mb-4">НЕДЕЛЯ</h4>
-                <div class="text-5xl font-black mb-8 italic">150₽</div>
-                <button class="w-full py-4 border border-white/10 rounded-2xl font-bold hover:bg-white/5 transition uppercase italic">ВЫБРАТЬ</button>
-            </div>
-            <div class="glass p-12 rounded-[50px] border-[#f1c40f]/30 bg-[#f1c40f]/5 scale-110 blue-glow relative overflow-hidden">
-                <div class="absolute top-0 left-0 bg-[#f1c40f] text-black text-[10px] font-black px-4 py-1 uppercase tracking-widest">BEST</div>
-                <h4 class="text-2xl font-black uppercase mb-4 text-[#f1c40f]">МЕСЯЦ</h4>
-                <div class="text-6xl font-black mb-8 italic">500₽</div>
-                <button class="w-full py-5 bg-[#f1c40f] hover:bg-yellow-500 text-black font-black text-xl rounded-2xl transition uppercase italic">ПОДКЛЮЧИТЬ</button>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <footer class="py-20 bg-black text-center border-t border-white/5">
+        <section id="pricing" class="py-24 md:py-32 container mx-auto px-6 text-center">
+            <h2 class="text-4xl md:text-8xl font-black mb-16 md:mb-20 gold-text uppercase italic">ТВОЙ ТАРИФ</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-6 lg:gap-8 items-end max-w-6xl mx-auto text-white">
+                <div class="glass p-8 md:p-10 rounded-[40px] md:rounded-[50px] border-white/5 transition hover:scale-105">
+                    <h4 class="text-lg md:text-xl font-bold uppercase mb-4 text-blue-400">Демо</h4>
+                    <div class="text-4xl md:text-5xl font-black mb-8 italic uppercase tracking-tighter">1 ЧАС</div>
+                    <button onclick="startDownload()" class="w-full py-4 border border-blue-500/30 rounded-2xl font-bold hover:bg-blue-500/10 transition uppercase italic text-sm">ПОПРОБОВАТЬ</button>
+                </div>
+                <div class="glass p-8 md:p-10 rounded-[40px] md:rounded-[50px] border-white/5 transition hover:scale-105">
+                    <h4 class="text-lg md:text-xl font-bold uppercase mb-4">НЕДЕЛЯ</h4>
+                    <div class="text-4xl md:text-5xl font-black mb-8 italic">150₽</div>
+                    <button class="w-full py-4 border border-white/10 rounded-2xl font-bold hover:bg-white/5 transition uppercase italic text-sm">ВЫБРАТЬ</button>
+                </div>
+                <div class="glass p-10 md:p-12 rounded-[40px] md:rounded-[50px] border-[#f1c40f]/30 bg-[#f1c40f]/5 lg:scale-110 blue-glow relative overflow-hidden order-first lg:order-last">
+                    <div class="absolute top-0 left-0 bg-[#f1c40f] text-black text-[10px] font-black px-4 py-1 uppercase tracking-widest">BEST</div>
+                    <h4 class="text-2xl font-black uppercase mb-4 text-[#f1c40f]">МЕСЯЦ</h4>
+                    <div class="text-5xl md:text-6xl font-black mb-8 italic">500₽</div>
+                    <button class="w-full py-5 bg-[#f1c40f] hover:bg-yellow-500 text-black font-black text-lg md:text-xl rounded-2xl transition uppercase italic">ПОДКЛЮЧИТЬ</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="py-16 md:py-20 bg-black text-center border-t border-white/5">
         <div class="mb-10 flex justify-center items-center gap-3 opacity-50">
             <div class="w-8 h-8 icon-box text-xs"><i class="fas fa-key"></i></div>
             <span class="text-xl font-black uppercase italic text-white">Strong Key</span>
         </div>
-        <p class="text-[9px] text-gray-800 max-w-xl mx-auto px-6 uppercase italic tracking-tighter">
+        <p class="text-[9px] text-gray-700 max-w-xl mx-auto px-6 uppercase italic tracking-tighter mb-4">
             Данный сервис не является призывом к нарушению законодательства. 2026.
         </p>
+        <div class="flex justify-center gap-6 text-gray-600 mb-8">
+            <a href="#" class="hover:text-blue-400 transition text-xl"><i class="fab fa-telegram"></i></a>
+            <a href="#" class="hover:text-white transition text-xl"><i class="fab fa-github"></i></a>
+        </div>
     </footer>
 
     <script>
@@ -291,19 +348,23 @@
             document.getElementById('downloadModal').style.display = 'none';
         }
 
-        // Частицы фона для динамики
-        const body = document.body;
-        for(let i = 0; i < 15; i++) {
-            let spark = document.createElement('div');
-            spark.style.position = 'fixed';
-            spark.style.width = '1px';
-            spark.style.height = '40px';
-            spark.style.background = 'linear-gradient(to bottom, transparent, rgba(52, 152, 219, 0.2), transparent)';
-            spark.style.left = Math.random() * 100 + 'vw';
-            spark.style.top = Math.random() * 100 + 'vh';
-            spark.style.zIndex = '-1';
-            body.appendChild(spark);
-        }
+        // Animated sparks background
+        const createSparks = () => {
+            const body = document.body;
+            const count = window.innerWidth < 768 ? 10 : 20;
+            for(let i = 0; i < count; i++) {
+                let spark = document.createElement('div');
+                spark.style.position = 'fixed';
+                spark.style.width = '1px';
+                spark.style.height = Math.random() * 40 + 20 + 'px';
+                spark.style.background = 'linear-gradient(to bottom, transparent, rgba(52, 152, 219, 0.2), transparent)';
+                spark.style.left = Math.random() * 100 + 'vw';
+                spark.style.top = Math.random() * 100 + 'vh';
+                spark.style.zIndex = '-1';
+                body.appendChild(spark);
+            }
+        };
+        createSparks();
     </script>
 </body>
 </html>
